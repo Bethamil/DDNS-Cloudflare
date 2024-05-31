@@ -1,4 +1,5 @@
 import requests
+import logging
 
 class Cloudflare:
     URL = 'https://api.cloudflare.com/client/v4/'
@@ -33,7 +34,7 @@ class Cloudflare:
             if result['type'] == 'A' and result['name'] == self.name:
 
                 if result['content'] == newIP:
-                    print('IP address is the same, no need to update')
+                    logging.info('IP address is the same, no need to update')
                     return
                 
                 updateUrl = f'{self.LISTURL}/{result["id"]}'
@@ -50,9 +51,9 @@ class Cloudflare:
                 response.raise_for_status()
 
                 if response.json()['success'] == True:
-                    print(f'Updated {self.name} to {newIP}')
+                    logging.info(f'Updated {self.name} to {newIP}')
                 else:
-                    print('Failed to update DNS record')
+                    logging.error('Failed to update DNS record')
                 
                 return
 
