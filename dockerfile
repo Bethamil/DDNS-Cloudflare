@@ -27,4 +27,4 @@ RUN chmod +x /app/run.sh
 RUN touch /var/log/cron.log
 
 # Run the command on container startup
-CMD ["sh", "-c", "service cron start && tail -f /var/log/cron.log"]
+CMD sh -c "printenv | grep -E 'API_TOKEN|NAME|ZONE' | sed 's/^/export /' > /app/env.sh && cron && tail -f /var/log/cron.log"
