@@ -1,5 +1,12 @@
 import requests
 import logging
+import sys
+
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 class Cloudflare:
     URL = 'https://api.cloudflare.com/client/v4/'
@@ -25,7 +32,7 @@ class Cloudflare:
         return response.json()
 
     def updateDNS(self):
-        print('Updating DNS records')
+        logging.info('Updating DNS records')
         listDNS = self.listDNS()
         results = listDNS['result']
         newIP = self.getIp()
